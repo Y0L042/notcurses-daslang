@@ -1,0 +1,31 @@
+options gen2
+
+require daslib/daspkg
+
+[export]
+def package() {
+    package_name("notcurses-daslang")
+    package_author("Y0L042")
+    package_description("Daslang bindings for notcurses (Windows, multimedia disabled)")
+    package_license("Apache-2.0")
+    package_tag("tui")
+    package_tag("notcurses")
+}
+
+[export]
+def resolve(sdk_version, version : string) {
+    if (version == "" || version == "latest") {
+        download_branch("main")
+    } else {
+        download_tag("v{version}")
+    }
+}
+
+[export]
+def dependencies(version : string) {
+}
+
+[export]
+def build() {
+    cmake_build()
+}

@@ -1,0 +1,5 @@
+*.shared_module
+*.log
+build
+modules
+vendors
