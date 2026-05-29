@@ -27,5 +27,13 @@ def dependencies(version : string) {
 
 [export]
 def build() {
-    cmake_build()
+    // A plain cmake_build() can't work here: the top-level CMakeLists needs
+    // notcurses (headers + import lib) to already exist, and vendors/ is not
+    // shipped. tools/bootstrap.sh clones+builds notcurses, builds the modules
+    // (clang-cl / MSVC ABI), and stages the runtime DLLs next to them.
+    //
+    // daspkg runs this through `cmd.exe /c "cd <pkg> && <command>"`, so we hand
+    // the script to MSYS2 bash. Prefer the well-known UCRT64 bash; fall back to
+    // whatever `bash` is on PATH.
+    custom_build("(if exist C:\\msys64\\usr\\bin\\bash.exe (C:\\msys64\\usr\\bin\\bash.exe tools/bootstrap.sh) else (bash tools/bootstrap.sh))")
 }

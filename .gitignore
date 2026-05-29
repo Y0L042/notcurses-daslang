@@ -1,5 +1,7 @@
 *.shared_module
+*.dll
 *.log
 build
 modules
 vendors
+.daspkg_standalone
